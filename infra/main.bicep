@@ -116,6 +116,15 @@ module web './app/web.bicep' = {
   }
 }
 
+module shell 'shell.bicep' = {
+  name: 'shell'
+  scope: rg
+  params: {
+    location: acaLocation
+    environmentName: containerApps.outputs.environmentName
+  }
+}
+
 // App outputs
 output SERVICE_API_IMAGE_NAME string = api.outputs.SERVICE_API_IMAGE_NAME
 output SERVICE_WEB_IMAGE_NAME string = web.outputs.SERVICE_WEB_IMAGE_NAME
