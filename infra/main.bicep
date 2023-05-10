@@ -8,6 +8,7 @@ param environmentName string
 @minLength(1)
 @description('Primary location for all resources')
 param location string
+param acaLocation string = 'northcentralusstage'
 param resourceGroupName string = ''
 
 param containerAppsEnvironmentName string = ''
@@ -50,6 +51,7 @@ module containerApps './core/host/container-apps.bicep' = {
   scope: rg
   params: {
     name: 'app'
+    acaLocation: acaLocation
     containerAppsEnvironmentName: !empty(containerAppsEnvironmentName) ? containerAppsEnvironmentName : '${abbrs.appManagedEnvironments}${resourceToken}'
     containerRegistryName: !empty(containerRegistryName) ? containerRegistryName : '${abbrs.containerRegistryRegistries}${resourceToken}'
     location: location
@@ -63,7 +65,7 @@ module postgreSql './core/host/springboard-container-app.bicep' = {
   scope: rg
   params: {
     name: postgreSqlName
-    location: location
+    location: acaLocation
     tags: tags
     environmentId: containerApps.outputs.environmentId
     serviceType: 'postgres'
@@ -75,7 +77,7 @@ module redis './core/host/springboard-container-app.bicep' = {
   scope: rg
   params: {
     name: redisCacheName
-    location: location
+    location: acaLocation
     tags: tags
     environmentId: containerApps.outputs.environmentId
     serviceType: 'redis'
@@ -87,7 +89,7 @@ module api './app/api.bicep' = {
   scope: rg
   params: {
     name: apiContainerAppName
-    location: location
+    location: acaLocation
     tags: tags
     containerAppsEnvironmentName: containerApps.outputs.environmentName
     imageName: apiImageName
@@ -104,7 +106,7 @@ module web './app/web.bicep' = {
   scope: rg
   params: {
     name: webContainerAppName
-    location: location
+    location: acaLocation
     tags: tags
     containerAppsEnvironmentName: containerApps.outputs.environmentName
     imageName: webImageName
