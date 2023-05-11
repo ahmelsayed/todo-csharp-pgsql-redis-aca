@@ -10,6 +10,7 @@ resource app 'Microsoft.App/containerApps@2022-11-01-preview' = {
   location: location
   tags: tags
   properties: {
+    workloadProfileName: 'Consumption'
     environmentId: environmentId
     configuration: {
       service: {

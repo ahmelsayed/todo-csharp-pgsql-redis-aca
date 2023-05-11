@@ -25,7 +25,8 @@ resource app 'Microsoft.App/containerApps@2022-11-01-preview' = {
   tags: tags
   identity: { type: managedIdentity ? 'SystemAssigned' : 'None' }
   properties: {
-    managedEnvironmentId: containerAppsEnvironment.id
+    workloadProfileName: 'Consumption'
+    environmentId: containerAppsEnvironment.id
     configuration: {
       activeRevisionsMode: 'single'
       ingress: {

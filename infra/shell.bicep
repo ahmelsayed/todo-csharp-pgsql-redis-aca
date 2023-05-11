@@ -5,6 +5,7 @@ resource shell 'Microsoft.App/containerApps@2022-11-01-preview' = {
   name: 'shell'
   location: location
   properties: {
+    workloadProfileName: 'Consumption'
     environmentId: containerAppsEnvironment.id
     configuration: {
       ingress: {
@@ -43,7 +44,7 @@ resource shell 'Microsoft.App/containerApps@2022-11-01-preview' = {
       volumes: [
         {
           name: 'azurefilesmount'
-          storageName: 'azurefilesstorage'
+          storageName: 'azurefilesstorage2'
           storageType: 'AzureFile'
         }
       ]

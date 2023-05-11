@@ -6,7 +6,7 @@ param logAnalyticsWorkspaceName string
 var fileShareName = 'share-1'
 resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   name: uniqueString(resourceGroup().name)
-  location: 'northcentralus'
+  location: 'centralus'
   sku: {
     name: 'Premium_LRS'
   }
@@ -34,7 +34,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   }
 }
 
-resource containerAppsEnvironment 'Microsoft.App/managedEnvironments@2022-03-01' = {
+resource containerAppsEnvironment 'Microsoft.App/managedEnvironments@2022-11-01-preview' = {
   name: name
   location: location
   tags: tags
@@ -46,9 +46,15 @@ resource containerAppsEnvironment 'Microsoft.App/managedEnvironments@2022-03-01'
         sharedKey: logAnalyticsWorkspace.listKeys().primarySharedKey
       }
     }
+    workloadProfiles: [
+      {
+        name: 'Consumption'
+        workloadProfileType: 'Consumption'
+      }
+    ]
   }
-  resource azureFilesStorage 'storages@2022-10-01' = {
-    name: 'azurefilesstorage'
+  resource azureFilesStorage 'storages@2022-11-01-preview' = {
+    name: 'azurefilesstorage2'
     properties: {
       azureFile: {
         accountName: storageAccount.name
